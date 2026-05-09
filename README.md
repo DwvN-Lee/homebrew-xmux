@@ -20,11 +20,8 @@ XMux source and releases are maintained at:
 
 https://github.com/DwvN-Lee/XMux
 
-`Formula/xmux.rb` is mirrored from:
+`Formula/xmux.rb` is the Homebrew Formula source of truth for the tap. Update
+it during each XMux release with the new GitHub release URL and SHA256.
 
-```text
-DwvN-Lee/XMux:packaging/homebrew/xmux.rb
-```
-
-Do not edit the tap Formula as the source of truth. Update the XMux repository
-copy first, then sync this tap.
+The XMux repository owns source code, tags, GitHub release archives, and the npm
+package. This tap owns the Homebrew Formula.

@@ -1,10 +1,8 @@
-# Mirrored to DwvN-Lee/homebrew-xmux:Formula/xmux.rb during release.
-# Update this XMux repository copy first; do not hand-edit the tap copy as SSOT.
 class Xmux < Formula
   desc "Codex-led tmux teammate runtime"
   homepage "https://github.com/DwvN-Lee/XMux"
-  url "https://github.com/DwvN-Lee/XMux/releases/download/v1.0.39/xmux-1.0.39.tar.gz"
-  sha256 "4ba87fd636d566a1a26f1b263d585d53b7709f9698baf983c4ea79a9cd4a4cc4"
+  url "https://github.com/DwvN-Lee/XMux/releases/download/v1.0.40/xmux-1.0.40.tar.gz"
+  sha256 "df2d268940eb258c8ca235307ed7e23932cb0093de5db47a8088854a3e5989be"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
 
@@ -41,7 +39,7 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 1.0.39", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 1.0.40", shell_output("#{bin}/xmux --version")
 
     (testpath/".codex").mkpath
     system "zsh", "-f", "-c", <<~ZSH
