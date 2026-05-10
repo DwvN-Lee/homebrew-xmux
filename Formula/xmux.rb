@@ -1,8 +1,8 @@
 class Xmux < Formula
   desc "Codex-led tmux teammate runtime"
   homepage "https://github.com/DwvN-Lee/XMux"
-  url "https://github.com/DwvN-Lee/XMux/releases/download/v1.2.2/xmux-1.2.2.tar.gz"
-  sha256 "88d253c956226cc911112c100bc8d519fb30b3c3169b7bdbd9dd93e131c1cc74"
+  url "https://github.com/DwvN-Lee/XMux/releases/download/v1.3.0/xmux-1.3.0.tar.gz"
+  sha256 "50a07121279d92938c4efd467a1d8cd0c6011adb05d873d80d8a71adadaa3a9a"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
 
@@ -47,7 +47,7 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 1.2.2", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 1.3.0", shell_output("#{bin}/xmux --version")
     assert_predicate libexec/"share/xmux/skills/xmux-teams", :directory?
 
     (testpath/".codex").mkpath
