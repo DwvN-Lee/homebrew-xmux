@@ -1,10 +1,19 @@
 class Xmux < Formula
   desc "Codex-led tmux teammate runtime"
   homepage "https://github.com/DwvN-Lee/XMux"
-  url "https://github.com/DwvN-Lee/XMux/releases/download/v1.2.0/xmux-1.2.0.tar.gz"
-  sha256 "4e2bf9d3f3bd78b10d8cc16465fc6e71d3ba6e22de7ac903f5a1d86957018895"
+  url "https://github.com/DwvN-Lee/XMux/releases/download/v1.2.1/xmux-1.2.1.tar.gz"
+  sha256 "7420337302a3f391cdfb3ad021c152452fbb2ec447e1db8ea9e87dabe6a200dc"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
+
+  XMUX_PUBLIC_SKILLS = %w[
+    xmux-teams
+    xmux-claude
+    xmux-gemini
+    xmux-copilot
+    xmux-diagnosis
+    xmux-send-pane
+  ].freeze
 
   depends_on "node"
   depends_on "tmux"
@@ -15,6 +24,10 @@ class Xmux < Formula
     libexec.install "runtime"
     (libexec/"mcp").install "mcp/setup"
     libexec.install "share" if buildpath.join("share").directory?
+    XMUX_PUBLIC_SKILLS.each do |name|
+      src = buildpath.join("plugins/xmux/skills", name)
+      (libexec/"share/xmux/skills").install src if src.directory?
+    end
 
     chmod 0755, libexec/"bin/xmux"
     chmod 0755, libexec/"runtime/relay/xmux-bridge.zsh"
@@ -34,7 +47,8 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 1.2.0", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 1.2.1", shell_output("#{bin}/xmux --version")
+    assert_predicate libexec/"share/xmux/skills/xmux-teams", :directory?
 
     (testpath/".codex").mkpath
     system "zsh", "-f", "-c", <<~ZSH
