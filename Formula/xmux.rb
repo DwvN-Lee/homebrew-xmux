@@ -1,40 +1,27 @@
 class Xmux < Formula
-  desc "Codex-led tmux teammate runtime"
+  desc "Codex-Claude hook harness runtime"
   homepage "https://github.com/DwvN-Lee/XMux"
-  url "https://github.com/DwvN-Lee/XMux/releases/download/v1.3.0/xmux-1.3.0.tar.gz"
-  sha256 "50a07121279d92938c4efd467a1d8cd0c6011adb05d873d80d8a71adadaa3a9a"
+  url "https://github.com/DwvN-Lee/XMux/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "ff652a2959132ae4d2a5c907b15243f1d500eae020cf0c9ee4e75dfd973c6023"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
-
-  XMUX_PUBLIC_SKILLS = %w[
-    xmux-teams
-    xmux-claude
-    xmux-gemini
-    xmux-copilot
-    xmux-diagnosis
-    xmux-send-pane
-  ].freeze
 
   depends_on "node"
   depends_on "tmux"
   depends_on "zsh"
 
   def install
+    libexec.install "assets"
     libexec.install "bin"
+    libexec.install "dist"
+    libexec.install "plugins"
     libexec.install "runtime"
-    (libexec/"mcp").install "mcp/setup"
     libexec.install "share" if buildpath.join("share").directory?
-    XMUX_PUBLIC_SKILLS.each do |name|
-      src = buildpath.join("plugins/xmux/skills", name)
-      (libexec/"share/xmux/skills").install src if src.directory?
-    end
+    libexec.install "src"
 
     chmod 0755, libexec/"bin/xmux"
-    chmod 0755, libexec/"runtime/relay/xmux-bridge.zsh"
-    chmod 0755, libexec/"mcp/setup/claude.js"
-    chmod 0755, libexec/"mcp/setup/codex.js"
-    chmod 0755, libexec/"mcp/setup/copilot.js"
-    chmod 0755, libexec/"mcp/setup/gemini.js"
+    chmod 0755, libexec/"runtime/claude/pane-run.py"
+    chmod 0755, libexec/"runtime/codex/pane-run.py"
 
     (bin/"xmux").write <<~ZSH
       #!/usr/bin/env zsh
@@ -47,19 +34,23 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 1.3.0", shell_output("#{bin}/xmux --version")
-    assert_predicate libexec/"share/xmux/skills/xmux-teams", :directory?
+    assert_match "xmux 2.0.0", shell_output("#{bin}/xmux --version")
+    assert_predicate libexec/"assets/claude/skills/xmux-codex/SKILL.md", :file?
+    assert_predicate libexec/"plugins/xmux/skills/xmux-claude/SKILL.md", :file?
+    assert_predicate libexec/"src/xmux/setup.js", :file?
+    assert_predicate libexec/"dist/xmux/setup.js", :file?
 
-    (testpath/".codex").mkpath
     system "zsh", "-f", "-c", <<~ZSH
       set -euo pipefail
       cd "#{testpath}"
-      export XMUX_INSTALL_DIR="#{opt_libexec}"
-      source "#{opt_libexec}/runtime/shell/xmux.zsh"
-      test "$XMUX_INSTALL_DIR" = "#{opt_libexec}"
-      test "$XMUX_PROJECT_DIR" = "#{testpath}"
-      test "$XMUX_STATE_DIR" = "#{testpath}/.codex/xmux"
-      "#{opt_libexec}/bin/xmux" --help >/dev/null 2>&1
+      mkdir -p .git
+      export CLAUDE_HOME="#{testpath}/claude-home"
+      "#{bin}/xmux" setup-xmux --home "#{testpath}/codex-home" --refresh >/dev/null
+      "#{bin}/xmux" doctor-xmux --home "#{testpath}/codex-home" --json >/dev/null
+      test -f "#{testpath}/codex-home/config.toml"
+      test -f "#{testpath}/codex-home/skills/xmux-claude/SKILL.md"
+      test -f "#{testpath}/claude-home/settings.json"
+      test -f "#{testpath}/claude-home/skills/xmux-codex/SKILL.md"
     ZSH
   end
 end
