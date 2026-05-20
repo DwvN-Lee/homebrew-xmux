@@ -2,7 +2,7 @@ class XmuxBeta < Formula
   desc "Codex-Claude hook harness runtime beta"
   homepage "https://github.com/DwvN-Lee/XMux"
   url "https://github.com/DwvN-Lee/XMux/archive/refs/tags/v2.0.3-beta.1.tar.gz"
-  sha256 "13b021b4d637b5ec24a531c83a262729f84d4598eeff71b988abd1a9ffecdd5c"
+  sha256 "2c563f02366fd14414e981fa42b5b2a2d02d155cb85eedbdffb3fe0bf8b9f59f"
   license "MIT"
 
   depends_on "node"
