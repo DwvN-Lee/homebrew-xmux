@@ -1,8 +1,8 @@
 class Xmux < Formula
   desc "Codex-Claude hook harness runtime"
   homepage "https://github.com/DwvN-Lee/XMux"
-  url "https://github.com/DwvN-Lee/XMux/archive/refs/tags/v2.0.1.tar.gz"
-  sha256 "25a6889d601ec8aab129d8ff5e313bb69f6b746a8d428a53278974db3eea8019"
+  url "https://github.com/DwvN-Lee/XMux/archive/refs/tags/v2.0.2.tar.gz"
+  sha256 "c072ded122ecae1c5c3d222f1d1d1951c00e43736b9f5e6980505aa657e88d29"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
 
@@ -14,7 +14,6 @@ class Xmux < Formula
     libexec.install "assets"
     libexec.install "bin"
     libexec.install "dist"
-    libexec.install "plugins"
     libexec.install "runtime"
     libexec.install "share" if buildpath.join("share").directory?
     libexec.install "src"
@@ -34,9 +33,9 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 2.0.1", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 2.0.2", shell_output("#{bin}/xmux --version")
     assert_predicate libexec/"assets/claude/skills/xmux-codex/SKILL.md", :file?
-    assert_predicate libexec/"plugins/xmux/skills/xmux-claude/SKILL.md", :file?
+    assert_predicate libexec/"assets/codex/skills/xmux-claude/SKILL.md", :file?
     assert_predicate libexec/"src/xmux/setup.js", :file?
     assert_predicate libexec/"dist/xmux/setup.js", :file?
 
@@ -44,11 +43,12 @@ class Xmux < Formula
       set -euo pipefail
       cd "#{testpath}"
       mkdir -p .git
+      export HOME="#{testpath}/home"
       export CLAUDE_HOME="#{testpath}/claude-home"
       "#{bin}/xmux" setup-xmux --home "#{testpath}/codex-home" --refresh >/dev/null
       "#{bin}/xmux" doctor-xmux --home "#{testpath}/codex-home" --json >/dev/null
       test -f "#{testpath}/codex-home/config.toml"
-      test -f "#{testpath}/codex-home/skills/xmux-claude/SKILL.md"
+      test -f "#{testpath}/home/.agents/skills/xmux-claude/SKILL.md"
       test -f "#{testpath}/claude-home/settings.json"
       test -f "#{testpath}/claude-home/skills/xmux-codex/SKILL.md"
     ZSH
