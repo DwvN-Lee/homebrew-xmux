@@ -1,8 +1,8 @@
 class Xmux < Formula
   desc "Codex-Claude hook harness runtime"
   homepage "https://github.com/DwvN-Lee/XMux"
-  url "https://github.com/DwvN-Lee/XMux/archive/refs/tags/v2.0.3.tar.gz"
-  sha256 "ec835bcfc309858fab50913a852eb87d8f1c581592201b5723c95ed0db79f1b0"
+  url "https://github.com/DwvN-Lee/XMux/archive/refs/tags/v2.0.4.tar.gz"
+  sha256 "2d0b5474bf41f2566fb35b4b7508b68d198e3bd882dbd211de76dba0c03f1ada"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
 
@@ -33,7 +33,7 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 2.0.3", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 2.0.4", shell_output("#{bin}/xmux --version")
     assert_predicate libexec/"assets/claude/skills/xmux-codex/SKILL.md", :file?
     assert_predicate libexec/"assets/codex/skills/xmux-claude/SKILL.md", :file?
     assert_predicate libexec/"src/xmux/setup.js", :file?
