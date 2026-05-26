@@ -2,9 +2,9 @@ class Xmux < Formula
   desc "XMux communication harness for Codex and Claude"
   homepage "https://github.com/DwvN-Lee/XMux"
   url "https://github.com/DwvN-Lee/XMux.git",
-      tag:      "v1.0.1",
-      revision: "e8c87f58867066ad749d82c8921653d3e0299b45"
-  version "1.0.1"
+      tag:      "v1.0.2",
+      revision: "e65a21702ae1ec680ea20f3beb05e386a6fa6bf5"
+  version "1.0.2"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
 
@@ -35,11 +35,15 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 1.0.1", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 1.0.2", shell_output("#{bin}/xmux --version")
     assert_predicate libexec/"assets/claude/skills/xmux-codex/SKILL.md", :file?
     assert_predicate libexec/"assets/codex/skills/xmux-claude/SKILL.md", :file?
+    assert_predicate libexec/"assets/codex/skills/xmux-implement/SKILL.md", :file?
+    assert_predicate libexec/"assets/claude/agents/xmux-review.md", :file?
     assert_predicate libexec/"src/xmux/setup.js", :file?
+    assert_predicate libexec/"src/xmux/workflow-cli.js", :file?
     assert_predicate libexec/"dist/xmux/setup.js", :file?
+    assert_predicate libexec/"dist/xmux/workflow-cli.js", :file?
 
     system "zsh", "-f", "-c", <<~ZSH
       set -euo pipefail
@@ -53,6 +57,7 @@ class Xmux < Formula
       test -f "#{testpath}/home/.agents/skills/xmux-claude/SKILL.md"
       test -f "#{testpath}/claude-home/settings.json"
       test -f "#{testpath}/claude-home/skills/xmux-codex/SKILL.md"
+      test -f "#{testpath}/claude-home/agents/xmux-review.md"
     ZSH
   end
 end
