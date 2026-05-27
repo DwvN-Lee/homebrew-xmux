@@ -2,9 +2,9 @@ class Xmux < Formula
   desc "XMux communication harness for Codex and Claude"
   homepage "https://github.com/DwvN-Lee/XMux"
   url "https://github.com/DwvN-Lee/XMux.git",
-      tag:      "v1.0.3",
-      revision: "3b528f031507b3b4121ccbc21e7773231003ee6e"
-  version "1.0.3"
+      tag:      "v1.0.4",
+      revision: "2d190fc8377591dd7e625f74904a7a8398088fd9"
+  version "1.0.4"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
 
@@ -27,15 +27,15 @@ class Xmux < Formula
     (bin/"xmux").write <<~ZSH
       #!/usr/bin/env zsh
       set -euo pipefail
-      export XMUX_INSTALL_DIR="#{opt_libexec}"
-      exec "#{opt_libexec}/bin/xmux" "$@"
+      export XMUX_INSTALL_DIR="#{libexec}"
+      exec "#{libexec}/bin/xmux" "$@"
     ZSH
 
     zsh_completion.install "share/zsh/site-functions/_xmux" if buildpath.join("share/zsh/site-functions/_xmux").file?
   end
 
   test do
-    assert_match "xmux 1.0.3", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 1.0.4", shell_output("#{bin}/xmux --version")
     assert_predicate libexec/"assets/claude/skills/xmux-codex/SKILL.md", :file?
     assert_predicate libexec/"assets/codex/skills/xmux-claude/SKILL.md", :file?
     assert_predicate libexec/"assets/codex/skills/xmux-implement/SKILL.md", :file?
