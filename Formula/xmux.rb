@@ -2,9 +2,9 @@ class Xmux < Formula
   desc "XMux communication harness for Codex and Claude"
   homepage "https://github.com/DwvN-Lee/XMux"
   url "https://github.com/DwvN-Lee/XMux.git",
-      tag:      "v1.0.4",
-      revision: "2d190fc8377591dd7e625f74904a7a8398088fd9"
-  version "1.0.4"
+      tag:      "v1.0.5",
+      revision: "227fa62856a8d33c76e8a8201ec786ba671d3587"
+  version "1.0.5"
   license "MIT"
   head "https://github.com/DwvN-Lee/XMux.git", branch: "main"
 
@@ -35,7 +35,7 @@ class Xmux < Formula
   end
 
   test do
-    assert_match "xmux 1.0.4", shell_output("#{bin}/xmux --version")
+    assert_match "xmux 1.0.5", shell_output("#{bin}/xmux --version")
     assert_predicate libexec/"assets/claude/skills/xmux-codex/SKILL.md", :file?
     assert_predicate libexec/"assets/codex/skills/xmux-claude/SKILL.md", :file?
     assert_predicate libexec/"assets/codex/skills/xmux-implement/SKILL.md", :file?
